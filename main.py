@@ -1,30 +1,24 @@
 import telebot
-from bot_logic import gen_pass
-from telebot.types import ReactionTypeEmoji
 import random
-    # Замени 'TOKEN' на токен твоего бота
-    # Этот токен ты получаешь от BotFather, чтобы бот мог работать
-bot = telebot.TeleBot("")
+from telebot.types import ReactionTypeEmoji
+# Инициализация бота с использованием его токена
+bot = telebot.TeleBot("8289922721:AAHLMyapYwxZM9IFnOdIhKep7Pnj3bgyDBI")
 
-@bot.message_handler(commands=['start'])
+# Обработчик команды '/start' и '/hello'
+@bot.message_handler(commands=['start', 'hello'])
 def send_welcome(message):
-    bot.reply_to(message, "Привет! Я твой Telegram бот. Напиши что-нибудь!")
+    bot.reply_to(message, f'Привет! Я бот {bot.get_me().first_name}!')
 
-@bot.message_handler(commands=['hello'])
-def send_hello(message):
-    bot.reply_to(message, "Привет! Как дела?")
-
-@bot.message_handler(commands=['bye'])
-def send_bye(message):
-    bot.reply_to(message, "Пока! Удачи!")
-
-@bot.message_handler(commands=['pass'])
-def send_bye(message):
-    bot.reply_to(message, "Привет, вот твой пароль: " + gen_pass(10))
-
+# Обработчик команды '/heh'
+@bot.message_handler(commands=['heh'])
+def send_heh(message):
+    count_heh = int(message.text.split()[1]) if len(message.text.split()) > 1 else 5
+    bot.reply_to(message, "he" * count_heh)
 
 @bot.message_handler(func=lambda message: True)
-def echo_all(message):
-    bot.reply_to(message, message.text)
+def send_reaction(message):
+    emo = ["\U0001F525", "\U0001F917", "\U0001F60E"]  # or use ["🔥", "🤗", "😎"]
+    bot.set_message_reaction(message.chat.id, message.id, [ReactionTypeEmoji(random.choice(emo))], is_big=False)
 
+# Запуск бота
 bot.polling()
