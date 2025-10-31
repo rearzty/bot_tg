@@ -2,7 +2,7 @@ import telebot
 import random
 from telebot.types import ReactionTypeEmoji
 # Инициализация бота с использованием его токена
-bot = telebot.TeleBot("8289922721:AAHLMyapYwxZM9IFnOdIhKep7Pnj3bgyDBI")
+bot = telebot.TeleBot("")
 
 # Обработчик команды '/start' и '/hello'
 @bot.message_handler(commands=['start', 'hello'])
